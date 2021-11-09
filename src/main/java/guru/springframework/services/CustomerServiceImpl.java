@@ -2,6 +2,7 @@ package guru.springframework.services;
 
 import guru.springframework.domain.Customer;
 import guru.springframework.domain.DomainObject;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by jt on 11/14/15.
  */
 @Service
+@Profile("map")
 public class CustomerServiceImpl extends AbstractMapService implements CustomerService {
 
     @Override

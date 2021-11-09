@@ -1,6 +1,8 @@
 package guru.springframework.bootstrap;
 
+import guru.springframework.domain.Customer;
 import guru.springframework.domain.Product;
+import guru.springframework.services.CustomerService;
 import guru.springframework.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -14,14 +16,22 @@ public class SprintJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private ProductService productService;
 
+    private CustomerService customerService;
+
     @Autowired
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
 
+    @Autowired
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadProducts();
+        loadCustomers();
     }
 
     public void loadProducts(){
@@ -57,5 +67,47 @@ public class SprintJPABootstrap implements ApplicationListener<ContextRefreshedE
         product5.setPrice(new BigDecimal("25.99"));
         product5.setImageUrl("http://example.com/product5");
         productService.saveOrUpdate(product5);
+    }
+
+    public void loadCustomers(){
+
+        Customer customer1 = new Customer();
+        customer1.setId(1);
+        customer1.setFirstName("Micheal");
+        customer1.setLastName("Weston");
+        customer1.setAddressLine1("1 Main St");
+        customer1.setAddressLine2("great Miami");
+        customer1.setCity("Miami");
+        customer1.setState("Florida");
+        customer1.setZipCode("33101");
+        customer1.setEmail("micheal@burnnotice.com");
+        customer1.setPhoneNumber("305.333.0101");
+        customerService.saveOrUpdate(customer1);
+
+        Customer customer2 = new Customer();
+        customer2.setId(2);
+        customer2.setFirstName("Fiona");
+        customer2.setLastName("Glenanne");
+        customer2.setAddressLine1("1 Key Biscane Ave");
+        customer2.setAddressLine2("greater Miami");
+        customer2.setCity("Miami");
+        customer2.setState("Florida");
+        customer2.setZipCode("33101");
+        customer2.setEmail("fiona@burnnotice.com");
+        customer2.setPhoneNumber("305.323.0233");
+        customerService.saveOrUpdate(customer2);
+
+        Customer customer3 = new Customer();
+        customer3.setId(3);
+        customer3.setFirstName("Sam");
+        customer3.setLastName("Axe");
+        customer3.setAddressLine1("1 Little Cuba Road");
+        customer3.setAddressLine2("Little Miami");
+        customer3.setCity("Miami");
+        customer3.setState("Florida");
+        customer3.setZipCode("33101");
+        customer3.setEmail("sam@burnnotice.com");
+        customer3.setPhoneNumber("305.426.9832");
+        customerService.saveOrUpdate(customer3);
     }
 }
