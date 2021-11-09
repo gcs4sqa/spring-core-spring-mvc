@@ -1,27 +1,19 @@
-package guru.springframework.services;
+package guru.springframework.services.jpaservices;
 
 import guru.springframework.domain.Product;
+import guru.springframework.services.ProductService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import java.util.List;
 
 @Service
 @Profile("jpadao")
-public class ProductServiceJpaDaoImpl implements ProductService{
-
-    private EntityManagerFactory emf;
-
-    @PersistenceUnit
-    public void setEmf(EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements ProductService {
 
     @Override
-    public List<?> listAll() {
+    public List<Product> listAll() {
         EntityManager em = emf.createEntityManager();
 
         return em.createQuery("from Product", Product.class).getResultList();
@@ -37,9 +29,10 @@ public class ProductServiceJpaDaoImpl implements ProductService{
     public Product saveOrUpdate(Product domainObject) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Product saveProduct = em.merge(domainObject);
+        Product savedProduct = em.merge(domainObject);
         em.getTransaction().commit();
-        return saveProduct;
+
+        return savedProduct;
     }
 
     @Override

@@ -110,12 +110,11 @@ public class ProductControllerTest {
 
         when(productService.saveOrUpdate(Matchers.<Product>any())).thenReturn(returnProduct);
 
-
         mockMvc.perform(post("/product")
-                        .param("id", "1")
-                        .param("description", description)
-                        .param("price", "12.00")
-                        .param("imageUrl", "example.com"))
+        .param("id", "1")
+        .param("description", description)
+        .param("price", "12.00")
+        .param("imageUrl", "example.com"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product/show/1"))
                 .andExpect(model().attribute("product", instanceOf(Product.class)))
