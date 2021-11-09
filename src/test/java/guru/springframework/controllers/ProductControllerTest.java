@@ -45,7 +45,6 @@ public class ProductControllerTest {
         products.add(new Product());
         products.add(new Product());
 
-
         //specific Mockito interaction, tell stub to return list of products
         when(productService.listAll()).thenReturn((List) products); //need to strip generics to keep Mockito happy.
 
@@ -53,7 +52,6 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("product/list"))
                 .andExpect(model().attribute("products", hasSize(2)));
-
     }
 
     @Test

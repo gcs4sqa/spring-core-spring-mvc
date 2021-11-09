@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+/**
+ * Created by jt on 12/9/15.
+ */
 @Service
 @Profile("jpadao")
 public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements ProductService {
@@ -22,12 +25,14 @@ public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements P
     @Override
     public Product getById(Integer id) {
         EntityManager em = emf.createEntityManager();
+
         return em.find(Product.class, id);
     }
 
     @Override
     public Product saveOrUpdate(Product domainObject) {
         EntityManager em = emf.createEntityManager();
+
         em.getTransaction().begin();
         Product savedProduct = em.merge(domainObject);
         em.getTransaction().commit();
@@ -38,6 +43,7 @@ public class ProductServiceJpaDaoImpl extends AbstractJpaDaoService implements P
     @Override
     public void delete(Integer id) {
         EntityManager em = emf.createEntityManager();
+
         em.getTransaction().begin();
         em.remove(em.find(Product.class, id));
         em.getTransaction().commit();
