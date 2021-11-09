@@ -3,6 +3,7 @@ package guru.springframework.bootstrap;
 import guru.springframework.domain.*;
 import guru.springframework.domain.security.Role;
 import guru.springframework.enums.OrderStatus;
+import guru.springframework.services.OrderService;
 import guru.springframework.services.ProductService;
 import guru.springframework.services.RoleService;
 import guru.springframework.services.UserService;
@@ -78,6 +79,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
             Order order = new Order();
             order.setCustomer(user.getCustomer());
             order.setOrderStatus(OrderStatus.SHIPPED);
+
 
             products.forEach(product -> {
                 OrderDetail orderDetail = new OrderDetail();
