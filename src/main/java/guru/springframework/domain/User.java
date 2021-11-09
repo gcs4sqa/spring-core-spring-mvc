@@ -1,19 +1,16 @@
 package guru.springframework.domain;
 
+import guru.springframework.domain.security.Role;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jt on 12/14/15.
  */
 @Entity
-public class User implements DomainObject {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @Version
-    private Integer version;
+public class User extends AbstractDomainClass  {
 
     private String username;
 
@@ -29,23 +26,11 @@ public class User implements DomainObject {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
+    @ManyToMany
+    @JoinTable
+    // ~ defaults to @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "user_id"),
+    //     inverseJoinColumns = @joinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -94,5 +79,28 @@ public class User implements DomainObject {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role){
+        if(!this.roles.contains(role)){
+            this.roles.add(role);
+        }
+
+        if(!role.getUsers().contains(this)){
+            role.getUsers().add(this);
+        }
+    }
+
+    public void removeRole(Role role){
+        this.roles.remove(role);
+        role.getUsers().remove(this);
     }
 }
